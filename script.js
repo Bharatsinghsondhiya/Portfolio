@@ -783,19 +783,174 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal').forEach(el => {
+    document.querySelectorAll('.reveal, .reveal-slide-left, .reveal-slide-right, .reveal-scale-up').forEach(el => {
         revealObserver.observe(el);
     });
 
-    // Auto stagger child nodes within revealed groups
+    // Auto stagger child nodes within revealed groups with premium varied directions
     document.querySelectorAll('.reveal-group').forEach(group => {
         const children = group.children;
         Array.from(children).forEach((child, index) => {
-            child.classList.add('reveal');
-            child.style.transitionDelay = `${index * 80}ms`;
+            // Apply varied animation types for premium feel
+            if (index % 3 === 0) {
+                child.classList.add('reveal-slide-left');
+            } else if (index % 3 === 1) {
+                child.classList.add('reveal-scale-up');
+            } else {
+                child.classList.add('reveal-slide-right');
+            }
+            child.style.transitionDelay = `${index * 100}ms`;
             revealObserver.observe(child);
         });
     });
+
+    // 1b. Scroll Progress & Active Sidebar Dot Nav Handler
+    const scrollProgressBar = document.getElementById('scroll-progress-bar');
+    const sections = document.querySelectorAll('section[id]');
+    const dotLinks = document.querySelectorAll('.sidebar-dot-nav .dot-link');
+
+    function handleScroll() {
+        // Update Scroll Progress Bar
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollHeight > 0) {
+            const scrollPercentage = (window.scrollY / scrollHeight) * 100;
+            if (scrollProgressBar) {
+                scrollProgressBar.style.width = scrollPercentage + '%';
+            }
+        }
+
+        // Active Dot State Tracking
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 180;
+            const sectionHeight = section.offsetHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        if (currentSectionId) {
+            dotLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // 1c. Interactive Particle Canvas System
+    const canvas = document.getElementById('particles-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.density = (Math.random() * 30) + 1;
+                this.vx = (Math.random() * 0.4) - 0.2;
+                this.vy = (Math.random() * 0.4) - 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.45)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            update() {
+                // Regular floating movement
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+
+                // Mouse interaction (gravity attraction)
+                if (mouse.x !== null && mouse.y !== null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouse.radius) {
+                        let force = (mouse.radius - distance) / mouse.radius;
+                        this.x += (dx / distance) * force * 1.5;
+                        this.y += (dy / distance) * force * 1.5;
+                    }
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(65, Math.floor((canvas.width * canvas.height) / 18000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update and draw particles
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+
+            // Connect nearby particles with custom thin translucent gradient line segments
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 110) {
+                        const alpha = (110 - dist) / 110 * 0.12;
+                        ctx.strokeStyle = `rgba(240, 90, 40, ${alpha})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        animateParticles();
+    }
 
     // 2. Interactive 3D Card Hover & Glowing Cursor Tracking
     const tiltCards = document.querySelectorAll('.tilt-card');
