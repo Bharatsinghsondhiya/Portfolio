@@ -499,16 +499,35 @@ function initCarousel() {
 }
 
 function updateSlide(index) {
-    if (index >= slides.length) index = 0;
-    if (index < 0) index = slides.length - 1;
+    if (slides.length === 0) return;
     
-    currentSlideIndex = index;
+    let nextIndex = index;
+    if (nextIndex >= slides.length) nextIndex = 0;
+    if (nextIndex < 0) nextIndex = slides.length - 1;
+    
+    // Calculate sliding transition direction
+    let direction = 'next';
+    if (nextIndex < currentSlideIndex) {
+        direction = 'prev';
+    }
+    // Wrap-around edge cases
+    if (currentSlideIndex === 0 && nextIndex === slides.length - 1) {
+        direction = 'prev';
+    } else if (currentSlideIndex === slides.length - 1 && nextIndex === 0) {
+        direction = 'next';
+    }
+    
+    const prevIndex = currentSlideIndex;
+    currentSlideIndex = nextIndex;
     
     slides.forEach((slide, i) => {
+        // Clear previous sliding classes
+        slide.classList.remove('active', 'slide-left', 'slide-right');
+        
         if (i === currentSlideIndex) {
             slide.classList.add('active');
-        } else {
-            slide.classList.remove('active');
+        } else if (i === prevIndex) {
+            slide.classList.add(direction === 'next' ? 'slide-left' : 'slide-right');
         }
     });
     
@@ -742,3 +761,112 @@ function openBlogPost(blogId) {
 
 // Bind to window context so inline HTML click events resolve
 window.openBlogPost = openBlogPost;
+
+// ─────────────────────────────────────────────
+// PREMIUM DYNAMIC ANIMATION CONTROLLER
+// ─────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Scroll Reveal Observer Setup
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px -20px -30px 0px',
+        threshold: 0.05
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        revealObserver.observe(el);
+    });
+
+    // Auto stagger child nodes within revealed groups
+    document.querySelectorAll('.reveal-group').forEach(group => {
+        const children = group.children;
+        Array.from(children).forEach((child, index) => {
+            child.classList.add('reveal');
+            child.style.transitionDelay = `${index * 80}ms`;
+            revealObserver.observe(child);
+        });
+    });
+
+    // 2. Interactive 3D Card Hover & Glowing Cursor Tracking
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    tiltCards.forEach(card => {
+        if (!card.querySelector('.tilt-card-glow')) {
+            const glow = document.createElement('div');
+            glow.className = 'tilt-card-glow';
+            card.appendChild(glow);
+        }
+
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Limit 3D tilt deflection angles to preserve readability
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+
+    // 3. Dynamic Typewriter Phrase Cycler
+    const typewriterWords = ["intelligent web", "scalable backends", "AI agent workflows", "high-performance APIs"];
+    let wordIdx = 0;
+    let charIdx = 0;
+    let isDeletingWord = false;
+    const typeSpeed = 90;
+    const eraseSpeed = 40;
+    const pauseBeforeErase = 2000;
+    const typewriterNode = document.getElementById('typewriter-text');
+
+    function runTypewriter() {
+        if (!typewriterNode) return;
+        const currentWord = typewriterWords[wordIdx];
+        
+        if (isDeletingWord) {
+            typewriterNode.textContent = currentWord.substring(0, charIdx - 1);
+            charIdx--;
+        } else {
+            typewriterNode.textContent = currentWord.substring(0, charIdx + 1);
+            charIdx++;
+        }
+
+        let scheduleDelay = isDeletingWord ? eraseSpeed : typeSpeed;
+
+        if (!isDeletingWord && charIdx === currentWord.length) {
+            isDeletingWord = true;
+            scheduleDelay = pauseBeforeErase;
+        } else if (isDeletingWord && charIdx === 0) {
+            isDeletingWord = false;
+            wordIdx = (wordIdx + 1) % typewriterWords.length;
+            scheduleDelay = 300;
+        }
+
+        setTimeout(runTypewriter, scheduleDelay);
+    }
+
+    if (typewriterNode) {
+        typewriterNode.textContent = '';
+        setTimeout(runTypewriter, 400);
+    }
+});
