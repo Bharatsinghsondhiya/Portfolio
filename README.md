@@ -95,4 +95,4 @@ open index.html
 
 ---
 
-*Designed and engineered by Bharat Singh, 2026.*
+*Designed and engineered by Bharat Singh, 2026. Custom animations and configurations updated.*
