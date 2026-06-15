@@ -1025,3 +1025,4 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(runTypewriter, 400);
     }
 });
+
