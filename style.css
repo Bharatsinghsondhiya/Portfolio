@@ -3429,9 +3429,10 @@ body.page-loading .page-container {
 
 /* RESPONSIVE DESIGN FOR STUDIO LAYOUTS */
 @media (max-width: 992px) {
-    .stack-grid,
+    .stack-columns,
     .notes-grid,
-    .motion-gallery {
+    .motion-gallery,
+    .projects-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -3444,6 +3445,15 @@ body.page-loading .page-container {
 
     .console-metrics {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .c-metric:nth-child(2) {
+        border-right: none;
+    }
+
+    .c-metric:nth-child(1),
+    .c-metric:nth-child(2) {
+        border-bottom: 1px solid var(--border-glass);
     }
 
     .snapshot-glass-card {
@@ -3459,18 +3469,30 @@ body.page-loading .page-container {
 }
 
 @media (max-width: 768px) {
-    .stack-grid,
+    .stack-columns,
     .notes-grid,
-    .motion-gallery {
+    .motion-gallery,
+    .projects-grid {
         grid-template-columns: 1fr;
     }
 
-    .metrics-grid {
-        grid-template-columns: 1fr;
-    }
-
+    .metrics-grid,
     .console-metrics {
         grid-template-columns: 1fr;
+    }
+
+    .c-metric {
+        border-right: none;
+        border-bottom: 1px solid var(--border-glass);
+    }
+
+    .c-metric:last-child {
+        border-bottom: none;
+    }
+
+    .stack-header-strip {
+        flex-direction: column;
+        gap: 12px;
     }
     
     .console-header {
@@ -3487,7 +3509,7 @@ body.page-loading .page-container {
         padding: 24px;
     }
 
-    .contact-card, .review-card, .metric-card, .system-card, .think-card {
+    .contact-card, .review-card, .metric-card, .system-card, .think-card, .sys-work-card {
         padding: 24px;
     }
 }
