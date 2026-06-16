@@ -479,7 +479,7 @@ h1, h2, h3, h4 {
 }
 
 .btn-hire:hover {
-    background: #ff6c3e;
+    background: #ff7a50;
     transform: translateY(-2px);
     box-shadow: 0 15px 30px rgba(240, 90, 40, 0.45);
 }
