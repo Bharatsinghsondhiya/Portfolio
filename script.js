@@ -465,7 +465,7 @@ function showNote(noteId) {
 
 // Utility function to escape HTML inside manifest strings
 function escapeHtml(string) {
-    return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 // 9. Dynamic Viewfinder Timecode Generator (24fps frame steps)
