@@ -301,6 +301,7 @@
                 content: `
                     <p>Agentic workflows represent a paradigm shift in how we integrate Large Language Models into software systems. Instead of single-shot prompts, we build loops where the model acts, observes, and adapts.</p>
                     
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&h=400&q=80" style="width: 100%; border-radius: 12px; margin: 20px 0;" alt="Agentic Loop Diagram">
                     <h4>The Loop Architecture</h4>
                     <p>A typical reliable agent loop consists of three distinct states:</p>
                     <ul>
@@ -330,7 +331,7 @@ try {
                 img: 'file:///C:/Users/bhara/.gemini/antigravity/brain/5bfe4a88-0b5c-4122-853c-1ce974e8fdb2/blog_postgres_1780238716213.png',
                 content: `
                     <p>Relational databases are often the bottleneck in modern high-throughput web applications. While scaling horizontally is easy for stateless compute, scaling Postgres requires smart connection management and indexing strategies.</p>
-                    
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&h=400&q=80" style="width: 100%; border-radius: 12px; margin: 20px 0;" alt="Database Architecture">
                     <h4>1. Connection Pool Optimization</h4>
                     <p>Each connection in Postgres consumes memory. At thousands of concurrent requests, direct connections will crash the server. We place an edge pooler like PgBouncer in transaction mode to pool connections efficiently, keeping target DB connections stable.</p>
                     
@@ -350,12 +351,36 @@ ON applications (tenant_id, created_at DESC);</code></div>
                 img: 'file:///C:/Users/bhara/.gemini/antigravity/brain/5bfe4a88-0b5c-4122-853c-1ce974e8fdb2/blog_sync_1780238740390.png',
                 content: `
                     <p>Collaborative B2B platforms require real-time state updates to keep multiple clients synchronized. Selecting the right protocol is critical to balance server CPU cycles and client-side complexity.</p>
-                    
+                    <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&h=400&q=80" style="width: 100%; border-radius: 12px; margin: 20px 0;" alt="Sync Protocol">
                     <h4>WebSockets vs Server-Sent Events (SSE)</h4>
                     <p>For bidirectional operations (like chat or live multi-user editing), <strong>WebSockets</strong> are the industry standard. However, for unidirectional push notifications and read-only dashboard updates, <strong>SSE</strong> is much simpler to implement, utilizes HTTP/2 naturally, and handles reconnections automatically.</p>
                     
                     <h4>State Conflict Resolution</h4>
                     <p>When two users edit the same field simultaneously, conflicts occur. We use Operational Transformation (OT) or Conflict-Free Replicated Data Types (CRDTs) to merge client states locally without requiring heavy locking mechanisms on the DB.</p>
+                `
+            },
+            'edge-compute': {
+                title: 'Deploying APIs to the Edge',
+                date: 'APR 12, 2026 // 7 MIN READ',
+                tag: 'INFRASTRUCTURE',
+                img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&h=400&q=80',
+                content: `
+                    <p>Edge computing brings computation closer to the user, significantly reducing latency for global audiences.</p>
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&h=400&q=80" style="width: 100%; border-radius: 12px; margin: 20px 0;" alt="Edge Network">
+                    <h4>Why Edge?</h4>
+                    <p>By executing lightweight functions on CDN nodes, we can personalize responses, validate tokens, and route traffic before it ever hits our main server.</p>
+                `
+            },
+            'micro-frontends': {
+                title: 'The Rise of Micro-Frontends',
+                date: 'MAR 05, 2026 // 5 MIN READ',
+                tag: 'FRONTEND',
+                img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&h=400&q=80',
+                content: `
+                    <p>Scaling frontend applications across multiple teams is hard. Micro-frontends allow teams to develop and deploy their features independently.</p>
+                    <img src="https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=800&h=400&q=80" style="width: 100%; border-radius: 12px; margin: 20px 0;" alt="Frontend Architecture">
+                    <h4>Implementation Strategies</h4>
+                    <p>We can use Module Federation in Webpack to dynamically load remote components at runtime, creating a seamless user experience while keeping codebases modular.</p>
                 `
             }
         };
