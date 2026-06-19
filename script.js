@@ -300,11 +300,10 @@ if (cmdInputEl) {
                     }, 600);
                     break;
                 case 'blog':
-                    historyLine.innerHTML = `<span class="text-success">Executing: Navigate to #blog</span><br>Redirecting console view down to Tech Insights...`;
+                    historyLine.innerHTML = `<span class="text-success">Executing: Navigate to Blogs</span><br>Redirecting console view to Tech Insights...`;
                     cmdResultsEl.appendChild(historyLine);
                     setTimeout(() => {
-                        toggleCmdMenu();
-                        document.getElementById('blog').scrollIntoView({ behavior: 'smooth' });
+                        window.location.href = 'blogs.html';
                     }, 600);
                     break;
                 case 'contact':
