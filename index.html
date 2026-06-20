@@ -838,6 +838,40 @@
 
     <!-- Script -->
     <script src="script.js"></script>
+
+    <!-- Dynamic Portfolio Integration -->
+    <script>
+        async function loadPortfolioData() {
+            try {
+                const res = await fetch('http://localhost:3000/api/portfolio');
+                if (res.ok) {
+                    const data = await res.json();
+                    
+                    // Update Title
+                    document.querySelectorAll('.logo-cursive').forEach(el => {
+                        if(!el.classList.contains('loading-logo')) el.textContent = data.title;
+                    });
+                    
+                    // Update Subtitle
+                    const rolesEl = document.querySelector('.snapshot-row .row-value');
+                    if (rolesEl) rolesEl.textContent = data.subtitle;
+
+                    // Update Hero Description
+                    const heroDescEl = document.querySelector('.hero-desc-modern');
+                    if (heroDescEl) heroDescEl.textContent = data.hero_desc;
+                    
+                    // Update Hero Title
+                    const heroTitleEl = document.querySelector('.hero-title-modern');
+                    if (heroTitleEl && data.hero_title) {
+                        heroTitleEl.innerHTML = data.hero_title;
+                    }
+                }
+            } catch (err) {
+                console.error('Failed to load dynamic portfolio data:', err);
+            }
+        }
+        loadPortfolioData();
+    </script>
 </body>
 
 </html>

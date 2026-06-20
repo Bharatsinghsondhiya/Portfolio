@@ -161,69 +161,8 @@
             <h2 class="sec-title" style="color: #fff;">Insights & Articles</h2>
         </div>
 
-        <div class="notes-grid reveal-group">
-            <div class="note-card glass-panel tilt-card" onclick="window.location.href='blog.html?id=agentic-workflows'" style="cursor: pointer; padding: 0; overflow: hidden;">
-                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&h=300&q=80" alt="Agentic Workflows" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 24px;">
-                    <div class="note-meta">
-                        <span class="note-tag tag-success">LLM_ENG</span>
-                        <span class="note-date text-cyan">01 // READ</span>
-                    </div>
-                    <h3>The Fallacy of Over-Prompting</h3>
-                    <p class="text-muted">Why structuring strict, validation-driven tool-use pipelines is infinitely
-                        more reliable than writing heavy instruction files.</p>
-                </div>
-            </div>
-
-            <div class="note-card glass-panel tilt-card" onclick="window.location.href='blog.html?id=high-throughput-db'" style="cursor: pointer; padding: 0; overflow: hidden;">
-                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&h=300&q=80" alt="Scaling Postgres" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 24px;">
-                    <div class="note-meta">
-                        <span class="note-tag tag-primary">ARCHITECTURE</span>
-                        <span class="note-date text-cyan">02 // READ</span>
-                    </div>
-                    <h3>Single-File Core Architectures</h3>
-                    <p class="text-muted">Restructuring early directory limits to minimize file-system context
-                        scattering and speed up MVP rollout cadences.</p>
-                </div>
-            </div>
-
-            <div class="note-card glass-panel tilt-card" onclick="window.location.href='blog.html?id=state-sync'" style="cursor: pointer; padding: 0; overflow: hidden;">
-                <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&h=300&q=80" alt="State Synchronization" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 24px;">
-                    <div class="note-meta">
-                        <span class="note-tag tag-warning">UX_DESIGN</span>
-                        <span class="note-date text-cyan">03 // READ</span>
-                    </div>
-                    <h3>Keyboard-First Operation</h3>
-                    <p class="text-muted">Analyzing interface paradigms to structure high-speed web apps that match the
-                        velocity of command line engines.</p>
-                </div>
-            </div>
-
-            <div class="note-card glass-panel tilt-card" onclick="window.location.href='blog.html?id=edge-compute'" style="cursor: pointer; padding: 0; overflow: hidden;">
-                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&h=300&q=80" alt="Edge Compute" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 24px;">
-                    <div class="note-meta">
-                        <span class="note-tag tag-primary">INFRASTRUCTURE</span>
-                        <span class="note-date text-cyan">04 // READ</span>
-                    </div>
-                    <h3>Deploying APIs to the Edge</h3>
-                    <p class="text-muted">Edge computing brings computation closer to the user, significantly reducing latency for global audiences.</p>
-                </div>
-            </div>
-
-            <div class="note-card glass-panel tilt-card" onclick="window.location.href='blog.html?id=micro-frontends'" style="cursor: pointer; padding: 0; overflow: hidden;">
-                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&h=300&q=80" alt="Micro Frontends" style="width: 100%; height: 180px; object-fit: cover;">
-                <div style="padding: 24px;">
-                    <div class="note-meta">
-                        <span class="note-tag tag-success">FRONTEND</span>
-                        <span class="note-date text-cyan">05 // READ</span>
-                    </div>
-                    <h3>The Rise of Micro-Frontends</h3>
-                    <p class="text-muted">Scaling frontend applications across multiple teams is hard. Micro-frontends allow teams to develop and deploy their features independently.</p>
-                </div>
-            </div>
+        <div class="notes-grid reveal-group" id="blogs-container">
+            <p>Loading blogs...</p>
         </div>
 
         <footer class="article-footer">
@@ -240,6 +179,59 @@
             </div>
         </footer>
     </article>
+
+    <script>
+        function stripHtml(html) {
+            let tmp = document.createElement("DIV");
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || "";
+        }
+
+        async function loadBlogs() {
+            try {
+                const res = await fetch('http://localhost:3000/api/blogs');
+                if (!res.ok) throw new Error('Failed to fetch blogs');
+                const blogs = await res.json();
+                
+                const container = document.getElementById('blogs-container');
+                container.innerHTML = '';
+
+                if (blogs.length === 0) {
+                    container.innerHTML = '<p>No blogs available.</p>';
+                    return;
+                }
+
+                blogs.forEach((blog, index) => {
+                    const tagClass = index % 2 === 0 ? 'tag-success' : 'tag-primary';
+                    const snippet = stripHtml(blog.content).substring(0, 100) + '...';
+
+                    const card = document.createElement('div');
+                    card.className = 'note-card glass-panel tilt-card';
+                    card.style = 'cursor: pointer; padding: 0; overflow: hidden;';
+                    card.onclick = () => window.location.href = `blog.html?id=${blog.id}`;
+
+                    card.innerHTML = \`
+                        <img src="\${blog.img}" alt="\${blog.title}" style="width: 100%; height: 180px; object-fit: cover;">
+                        <div style="padding: 24px;">
+                            <div class="note-meta">
+                                <span class="note-tag \${tagClass}">\${blog.tag}</span>
+                                <span class="note-date text-cyan">\${blog.date}</span>
+                            </div>
+                            <h3>\${blog.title}</h3>
+                            <p class="text-muted">\${snippet}</p>
+                        </div>
+                    \`;
+                    
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById('blogs-container').innerHTML = '<p>Error loading blogs. Make sure the backend server is running.</p>';
+            }
+        }
+
+        loadBlogs();
+    </script>
 </body>
 
 </html>
