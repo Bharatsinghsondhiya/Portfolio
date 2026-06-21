@@ -210,17 +210,17 @@
                     card.style = 'cursor: pointer; padding: 0; overflow: hidden;';
                     card.onclick = () => window.location.href = `blog.html?id=${blog.id}`;
 
-                    card.innerHTML = \`
-                        <img src="\${blog.img}" alt="\${blog.title}" style="width: 100%; height: 180px; object-fit: cover;">
+                    card.innerHTML = `
+                        <img src="${blog.img}" alt="${blog.title}" style="width: 100%; height: 180px; object-fit: cover;">
                         <div style="padding: 24px;">
                             <div class="note-meta">
-                                <span class="note-tag \${tagClass}">\${blog.tag}</span>
-                                <span class="note-date text-cyan">\${blog.date}</span>
+                                <span class="note-tag ${tagClass}">${blog.tag}</span>
+                                <span class="note-date text-cyan">${blog.date}</span>
                             </div>
-                            <h3>\${blog.title}</h3>
-                            <p class="text-muted">\${snippet}</p>
+                            <h3>${blog.title}</h3>
+                            <p class="text-muted">${snippet}</p>
                         </div>
-                    \`;
+                    `;
                     
                     container.appendChild(card);
                 });
