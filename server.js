@@ -18,7 +18,7 @@ const readDB = () => {
         return JSON.parse(data);
     } catch (err) {
         console.error('Error reading db.json', err);
-        return { portfolio: {}, blogs: [] };
+        return { portfolio: {}, blogs: [], projects: [], messages: [] };
     }
 };
 
@@ -95,6 +95,85 @@ app.delete('/api/blogs/:id', (req, res) => {
         res.json(deleted[0]);
     } else {
         res.status(404).json({ message: 'Blog not found' });
+    }
+});
+
+// GET /api/projects
+app.get('/api/projects', (req, res) => {
+    const db = readDB();
+    // sort by order if available
+    const projects = db.projects || [];
+    res.json(projects.sort((a, b) => (a.order || 0) - (b.order || 0)));
+});
+
+// POST /api/projects
+app.post('/api/projects', (req, res) => {
+    const db = readDB();
+    if (!db.projects) db.projects = [];
+    const newProj = req.body;
+    if (!newProj.id) {
+        newProj.id = newProj.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    }
+    db.projects.push(newProj);
+    writeDB(db);
+    res.status(201).json(newProj);
+});
+
+// PUT /api/projects/:id
+app.put('/api/projects/:id', (req, res) => {
+    const db = readDB();
+    if (!db.projects) db.projects = [];
+    const index = db.projects.findIndex(p => p.id === req.params.id);
+    if (index !== -1) {
+        db.projects[index] = { ...db.projects[index], ...req.body, id: req.params.id };
+        writeDB(db);
+        res.json(db.projects[index]);
+    } else {
+        res.status(404).json({ message: 'Project not found' });
+    }
+});
+
+// DELETE /api/projects/:id
+app.delete('/api/projects/:id', (req, res) => {
+    const db = readDB();
+    if (!db.projects) db.projects = [];
+    const index = db.projects.findIndex(p => p.id === req.params.id);
+    if (index !== -1) {
+        const deleted = db.projects.splice(index, 1);
+        writeDB(db);
+        res.json(deleted[0]);
+    } else {
+        res.status(404).json({ message: 'Project not found' });
+    }
+});
+
+// GET /api/messages
+app.get('/api/messages', (req, res) => {
+    const db = readDB();
+    res.json(db.messages || []);
+});
+
+// POST /api/messages
+app.post('/api/messages', (req, res) => {
+    const db = readDB();
+    if (!db.messages) db.messages = [];
+    const newMsg = { ...req.body, id: Date.now().toString(), date: new Date().toISOString() };
+    db.messages.unshift(newMsg);
+    writeDB(db);
+    res.status(201).json(newMsg);
+});
+
+// DELETE /api/messages/:id
+app.delete('/api/messages/:id', (req, res) => {
+    const db = readDB();
+    if (!db.messages) db.messages = [];
+    const index = db.messages.findIndex(m => m.id === req.params.id);
+    if (index !== -1) {
+        const deleted = db.messages.splice(index, 1);
+        writeDB(db);
+        res.json(deleted[0]);
+    } else {
+        res.status(404).json({ message: 'Message not found' });
     }
 });
 

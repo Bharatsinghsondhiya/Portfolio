@@ -7,6 +7,14 @@
   },
   "blogs": [
     {
+      "title": "Building Reliable Agentic Workflows",
+      "date": "MAY 28, 2026 // 5 MIN READ",
+      "tag": "AI & AGENTS",
+      "img": "https://techvidvan.com/tutorials/what-are-ai-agents/",
+      "content": "Building reliable agentic workflows requires shifting from single-shot prompts to iterative, self-correcting architectures. By incorporating core design patterns—such as Reflection, Tool Use, Planning, and Multi-Agent Collaboration—developers can transition AI from simple text generators to autonomous, production-grade problem solvers.Core Agentic Patterns for ReliabilityTo build dependable systems, you should leverage the foundational workflow patterns:Reflection (Self-Correction): The agent evaluates its own output, detects errors, and self-corrects before handing the result to the next step.Tool Use: Agents dynamically interact with APIs, web browsers, or sandboxed environments to take real-world actions based on the task at hand.Planning: Complex tasks are broken down into smaller, actionable steps with tracked dependencies so the agent can sequence logic and revise its trajectory dynamically.Multi-Agent Collaboration: Different agents are assigned specialized roles to work in parallel, drastically improving the handling of complex workflows.Foundational Building BlocksFor these patterns to perform consistently in production, your stack needs specific operational primitives:Robust Orchestration: A coordination layer (like LangChain Agentic Swarms) that manages context, tools, and long-term memory across the workflow.Human-in-the-Loop Approval: Checkpoints placed at high-stakes junctions to approve or moderate decisions before the agent executes them.Tracing & Observability: Tools like Galileo Observability to reconstruct reasoning paths, log hops, and evaluate performance.Tool Gateways: Standardized inputs and outputs that prevent models from corrupting data during execution.Would you like to explore specific architectural frameworks (like LangGraph, AutoGen, or Vellum), or discuss how to design an evaluation strategy to test your agent's reliability?",
+      "id": "building-reliable-agentic-workflows"
+    },
+    {
       "id": "edge-compute",
       "title": "Deploying APIs to the Edge",
       "date": "APR 12, 2026 // 7 MIN READ",
@@ -22,5 +30,60 @@
       "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&h=400&q=80",
       "content": "<p>Scaling frontend applications across multiple teams is hard. Micro-frontends allow teams to develop and deploy their features independently.</p>\n<img src=\"https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=800&h=400&q=80\" style=\"width: 100%; border-radius: 12px; margin: 20px 0;\" alt=\"Frontend Architecture\">\n<h4>Implementation Strategies</h4>\n<p>We can use Module Federation in Webpack to dynamically load remote components at runtime, creating a seamless user experience while keeping codebases modular.</p>"
     }
-  ]
+  ],
+  "projects": [
+    {
+      "id": "crewspace",
+      "title": "Crewspace",
+      "status": "Live Project",
+      "statusClass": "active",
+      "description": "Multi-tenant B2B task platform featuring workspace isolation, automated cron updates, and real-time state synchronization.",
+      "tags": [
+        "React",
+        "FastAPI",
+        "PostgreSQL"
+      ],
+      "order": 1
+    },
+    {
+      "id": "access-control",
+      "title": "Access Control Hub",
+      "status": "Active Core",
+      "statusClass": "active",
+      "description": "Authentication engine handling role matrices (RBAC), token blacklists, cache controls, and silent login handshakes.",
+      "tags": [
+        "TypeScript",
+        "Node.js",
+        "Redis"
+      ],
+      "order": 2
+    },
+    {
+      "id": "taskspace",
+      "title": "Taskspace Web",
+      "status": "In Development",
+      "statusClass": "local",
+      "description": "Keyboard-optimised task organizer featuring rapid shortcut indexes and background notification micro-servers.",
+      "tags": [
+        "React",
+        "MongoDB",
+        "Express"
+      ],
+      "order": 3
+    },
+    {
+      "id": "campuscrews",
+      "title": "CampusCrews",
+      "status": "Live Project",
+      "statusClass": "active",
+      "description": "Academic collaboration portal aggregates student teams, sockets messages, and automatic project evaluation pipelines.",
+      "tags": [
+        "Node.js",
+        "Socket.io",
+        "MongoDB"
+      ],
+      "order": 4
+    }
+  ],
+  "messages": []
 }
