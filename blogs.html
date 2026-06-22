@@ -125,6 +125,25 @@
             color: var(--text-muted);
         }
 
+        /* Loading Spinner */
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            width: 100%;
+            grid-column: 1 / -1;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(240, 90, 40, 0.2);
+            border-top-color: var(--accent-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
         /* Responsive overrides */
         @media (max-width: 768px) {
             .article-header {
@@ -162,7 +181,7 @@
         </div>
 
         <div class="notes-grid reveal-group" id="blogs-container">
-            <p>Loading blogs...</p>
+            <div class="loader-container"><div class="spinner"></div></div>
         </div>
 
         <footer class="article-footer">

@@ -7,30 +7,6 @@
   },
   "blogs": [
     {
-      "id": "agentic-workflows",
-      "title": "Building Reliable Agentic Workflows",
-      "date": "MAY 28, 2026 // 5 MIN READ",
-      "tag": "AI & AGENTS",
-      "img": "file:///C:/Users/bhara/.gemini/antigravity/brain/5bfe4a88-0b5c-4122-853c-1ce974e8fdb2/blog_agentic_1780238692185.png",
-      "content": "<p>Agentic workflows represent a paradigm shift in how we integrate Large Language Models into software systems. Instead of single-shot prompts, we build loops where the model acts, observes, and adapts.</p>\n<img src=\"https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&h=400&q=80\" style=\"width: 100%; border-radius: 12px; margin: 20px 0;\" alt=\"Agentic Loop Diagram\">\n<h4>The Loop Architecture</h4>\n<p>A typical reliable agent loop consists of three distinct states:</p>\n<ul>\n<li><strong>Planning:</strong> Breaking down a complex query into sequential tasks.</li>\n<li><strong>Execution:</strong> Invoking specific APIs or tools (e.g. database querying, search, code running).</li>\n<li><strong>Evaluation:</strong> Verifying if the output meets the requirements, and looping back if corrections are needed.</li>\n</ul>\n<h4>Handling Tool Failures</h4>\n<p>The main failure mode of agentic loops is tool hallucinations or API rate limits. To solve this, we implement state machine validations. If a tool call fails, the validation layer catches the exception and feeds the error back into the LLM context, instructing it to self-correct.</p>\n<div class=\"code-block\"><code>// Example retry logic in validation layer\ntry {\n    const output = await executeTool(call.name, call.args);\n    return validate(output);\n} catch (err) {\n    return { error: true, message: err.message };\n}</code></div>\n<p>By treating LLM tool use as a standard state machine with timeouts and fallbacks, we can build highly stable, autonomous systems.</p>"
-    },
-    {
-      "id": "high-throughput-db",
-      "title": "Scaling Postgres for High-Throughput APIs",
-      "date": "MAY 24, 2026 // 8 MIN READ",
-      "tag": "DATABASE",
-      "img": "file:///C:/Users/bhara/.gemini/antigravity/brain/5bfe4a88-0b5c-4122-853c-1ce974e8fdb2/blog_postgres_1780238716213.png",
-      "content": "<p>Relational databases are often the bottleneck in modern high-throughput web applications. While scaling horizontally is easy for stateless compute, scaling Postgres requires smart connection management and indexing strategies.</p>\n<img src=\"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&h=400&q=80\" style=\"width: 100%; border-radius: 12px; margin: 20px 0;\" alt=\"Database Architecture\">\n<h4>1. Connection Pool Optimization</h4>\n<p>Each connection in Postgres consumes memory. At thousands of concurrent requests, direct connections will crash the server. We place an edge pooler like PgBouncer in transaction mode to pool connections efficiently, keeping target DB connections stable.</p>\n<h4>2. Indexing Strategy</h4>\n<p>Composite indexes must match the query filter path. If you filter by tenant_id and sort by created_at, a composite index on <code>(tenant_id, created_at DESC)</code> is critical to prevent sequential database scans.</p>\n<div class=\"code-block\"><code>CREATE INDEX idx_tenant_created\nON applications (tenant_id, created_at DESC);</code></div>\n<p>Combining connection pooling with optimized indexing can reduce average API latency from 200ms to under 15ms.</p>"
-    },
-    {
-      "id": "state-sync",
-      "title": "Real-time State Synchronization In B2B Apps",
-      "date": "MAY 15, 2026 // 6 MIN READ",
-      "tag": "SYSTEMS",
-      "img": "file:///C:/Users/bhara/.gemini/antigravity/brain/5bfe4a88-0b5c-4122-853c-1ce974e8fdb2/blog_sync_1780238740390.png",
-      "content": "<p>Collaborative B2B platforms require real-time state updates to keep multiple clients synchronized. Selecting the right protocol is critical to balance server CPU cycles and client-side complexity.</p>\n<img src=\"https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&h=400&q=80\" style=\"width: 100%; border-radius: 12px; margin: 20px 0;\" alt=\"Sync Protocol\">\n<h4>WebSockets vs Server-Sent Events (SSE)</h4>\n<p>For bidirectional operations (like chat or live multi-user editing), <strong>WebSockets</strong> are the industry standard. However, for unidirectional push notifications and read-only dashboard updates, <strong>SSE</strong> is much simpler to implement, utilizes HTTP/2 naturally, and handles reconnections automatically.</p>\n<h4>State Conflict Resolution</h4>\n<p>When two users edit the same field simultaneously, conflicts occur. We use Operational Transformation (OT) or Conflict-Free Replicated Data Types (CRDTs) to merge client states locally without requiring heavy locking mechanisms on the DB.</p>"
-    },
-    {
       "id": "edge-compute",
       "title": "Deploying APIs to the Edge",
       "date": "APR 12, 2026 // 7 MIN READ",

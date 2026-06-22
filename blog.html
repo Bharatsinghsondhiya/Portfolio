@@ -221,6 +221,24 @@
             color: var(--text-muted);
         }
 
+        /* Loading Spinner */
+        .loader-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            width: 100%;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(240, 90, 40, 0.2);
+            border-top-color: var(--accent-orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
         /* Responsive overrides */
         @media (max-width: 768px) {
             .article-header {
@@ -259,20 +277,26 @@
 
     <!-- Main Content Panel -->
     <article class="article-container">
-        <header>
-            <div class="article-meta">
-                <span id="blog-tag" class="meta-tag">AI & AGENTS</span>
-                <span id="blog-date" class="meta-time">MAY 28, 2026 // 5 MIN READ</span>
-            </div>
-            <h1 id="blog-title" class="article-title">Article Title</h1>
-        </header>
-
-        <div class="article-hero-img-wrapper">
-            <img id="blog-hero" src="" alt="Blog Hero Image" class="article-hero-img">
+        <div id="loading-state" class="loader-container">
+            <div class="spinner"></div>
         </div>
 
-        <div id="blog-body" class="article-body">
-            <!-- Dynamically populated -->
+        <div id="article-content" style="display: none;">
+            <header>
+                <div class="article-meta">
+                    <span id="blog-tag" class="meta-tag"></span>
+                    <span id="blog-date" class="meta-time"></span>
+                </div>
+                <h1 id="blog-title" class="article-title"></h1>
+            </header>
+
+            <div class="article-hero-img-wrapper">
+                <img id="blog-hero" src="" alt="" class="article-hero-img">
+            </div>
+
+            <div id="blog-body" class="article-body">
+                <!-- Dynamically populated -->
+            </div>
         </div>
 
         <footer class="article-footer">
@@ -295,8 +319,12 @@
         async function loadBlog() {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('id');
+            const loadingState = document.getElementById('loading-state');
+            const articleContent = document.getElementById('article-content');
             
             if (!postId) {
+                loadingState.style.display = 'none';
+                articleContent.style.display = 'block';
                 document.getElementById('blog-body').innerHTML = '<p>No blog ID provided.</p>';
                 return;
             }
@@ -314,8 +342,13 @@
                 document.getElementById('blog-hero').alt = post.title;
                 document.getElementById('blog-body').innerHTML = post.content;
                 document.title = `${post.title} // Bharat Singh`;
+                
+                loadingState.style.display = 'none';
+                articleContent.style.display = 'block';
             } catch (err) {
                 console.error(err);
+                loadingState.style.display = 'none';
+                articleContent.style.display = 'block';
                 document.getElementById('blog-body').innerHTML = '<p>Error loading blog post. Make sure the backend server is running.</p>';
             }
         }
