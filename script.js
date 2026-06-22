@@ -339,28 +339,35 @@ function copyEmailToClipboard() {
     });
 }
 
-// 6. Contact Form Transmit Simulation
+// 6. Contact Form Transmission
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const name = document.getElementById('contact-name').value;
         const email = document.getElementById('contact-email').value;
+        const message = document.getElementById('contact-message').value;
         
         formFeedback.classList.remove('hidden', 'success', 'error');
-        formFeedback.innerHTML = '<span class="cursor-blink">Transmitting packet: Resolving host endpoints...</span>';
+        formFeedback.innerHTML = '<span class="cursor-blink">Transmitting message...</span>';
         
-        setTimeout(() => {
-            formFeedback.innerHTML = '<span class="cursor-blink">Transmitting packet: Sanitizing payload structures...</span>';
-            setTimeout(() => {
-                formFeedback.innerHTML = '<span class="cursor-blink">Transmitting packet: Transmitted successfully!</span>';
-                setTimeout(() => {
-                    formFeedback.classList.add('success');
-                    formFeedback.innerHTML = `✓ Message transmitted successfully!<br>Sender: ${name} (${email})<br>Status: Dispatched to SMTP relay.`;
-                    contactForm.reset();
-                }, 800);
-            }, 800);
-        }, 800);
+        try {
+            const res = await fetch('http://localhost:3000/api/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, message })
+            });
+            if (res.ok) {
+                formFeedback.classList.add('success');
+                formFeedback.innerHTML = `✓ Message transmitted successfully!`;
+                contactForm.reset();
+            } else {
+                throw new Error();
+            }
+        } catch (err) {
+            formFeedback.classList.add('error');
+            formFeedback.innerHTML = `Failed to send message. Server might be unreachable.`;
+        }
     });
 }
 
@@ -760,6 +767,47 @@ function openBlogPost(blogId) {
 
 // Bind to window context so inline HTML click events resolve
 window.openBlogPost = openBlogPost;
+
+// 14. Fetch Projects Dynamically
+async function fetchAndRenderProjects() {
+    const container = document.getElementById('featured-projects-container');
+    if (!container) return;
+
+    try {
+        const res = await fetch('http://localhost:3000/api/projects');
+        if (!res.ok) throw new Error();
+        const projects = await res.json();
+        
+        container.innerHTML = '';
+        if (projects.length === 0) {
+            container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center;">No projects available.</p>';
+            return;
+        }
+
+        projects.forEach((proj, idx) => {
+            const tagsHtml = proj.tags ? proj.tags.map(t => `<span>${t}</span>`).join('') : '';
+            const num = (idx + 1).toString().padStart(2, '0');
+            const card = document.createElement('div');
+            card.className = 'sys-work-card glass-panel tilt-card';
+            
+            card.innerHTML = `
+                <div class="sys-work-header">
+                    <span class="status-indicator ${proj.statusClass || 'active'}"><span class="dot"></span> ${proj.status || 'Active'}</span>
+                    <span class="project-num">${num}</span>
+                </div>
+                <h3>${proj.title}</h3>
+                <p class="text-muted">${proj.description}</p>
+                <div class="sys-work-tags">
+                    ${tagsHtml}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    } catch (err) {
+        container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center;">Failed to load projects.</p>';
+    }
+}
+document.addEventListener('DOMContentLoaded', fetchAndRenderProjects);
 
 // ─────────────────────────────────────────────
 // PREMIUM DYNAMIC ANIMATION CONTROLLER

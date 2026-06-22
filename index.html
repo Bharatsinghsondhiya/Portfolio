@@ -554,70 +554,8 @@
                 <h2 class="sec-title">Featured Projects</h2>
             </div>
 
-            <div class="projects-grid reveal-group">
-                <!-- System 1 -->
-                <div class="sys-work-card glass-panel tilt-card" onclick="openProjectSpec('crewspace')">
-                    <div class="sys-work-header">
-                        <span class="status-indicator active"><span class="dot"></span> Live Project</span>
-                        <span class="project-num">01</span>
-                    </div>
-                    <h3>Crewspace</h3>
-                    <p class="text-muted">Multi-tenant B2B task platform featuring workspace isolation, automated cron
-                        updates, and real-time state synchronization.</p>
-                    <div class="sys-work-tags">
-                        <span>React</span>
-                        <span>FastAPI</span>
-                        <span>PostgreSQL</span>
-                    </div>
-                </div>
-
-                <!-- System 2 -->
-                <div class="sys-work-card glass-panel tilt-card" onclick="openProjectSpec('access-control')">
-                    <div class="sys-work-header">
-                        <span class="status-indicator active"><span class="dot"></span> Active Core</span>
-                        <span class="project-num">02</span>
-                    </div>
-                    <h3>Access Control Hub</h3>
-                    <p class="text-muted">Authentication engine handling role matrices (RBAC), token blacklists, cache
-                        controls, and silent login handshakes.</p>
-                    <div class="sys-work-tags">
-                        <span>TypeScript</span>
-                        <span>Node.js</span>
-                        <span>Redis</span>
-                    </div>
-                </div>
-
-                <!-- System 3 -->
-                <div class="sys-work-card glass-panel tilt-card" onclick="openProjectSpec('taskspace')">
-                    <div class="sys-work-header">
-                        <span class="status-indicator local"><span class="dot"></span> In Development</span>
-                        <span class="project-num">03</span>
-                    </div>
-                    <h3>Taskspace Web</h3>
-                    <p class="text-muted">Keyboard-optimised task organizer featuring rapid shortcut indexes and
-                        background notification micro-servers.</p>
-                    <div class="sys-work-tags">
-                        <span>React</span>
-                        <span>MongoDB</span>
-                        <span>Express</span>
-                    </div>
-                </div>
-
-                <!-- System 4 -->
-                <div class="sys-work-card glass-panel tilt-card" onclick="openProjectSpec('campuscrews')">
-                    <div class="sys-work-header">
-                        <span class="status-indicator active"><span class="dot"></span> Live Project</span>
-                        <span class="project-num">04</span>
-                    </div>
-                    <h3>CampusCrews</h3>
-                    <p class="text-muted">Academic collaboration portal aggregates student teams, sockets messages, and
-                        automatic project evaluation pipelines.</p>
-                    <div class="sys-work-tags">
-                        <span>Node.js</span>
-                        <span>Socket.io</span>
-                        <span>MongoDB</span>
-                    </div>
-                </div>
+            <div class="projects-grid reveal-group" id="featured-projects-container">
+                <p style="color: var(--text-muted); grid-column: 1/-1; text-align: center;">Loading projects...</p>
             </div>
         </section>
 
