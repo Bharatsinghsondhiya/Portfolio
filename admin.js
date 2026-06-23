@@ -1,4 +1,5 @@
 const API_BASE = 'http://localhost:3000/api';
+console.log("AdminOS Interface Initialized.");
 
 // --- State ---
 let blogs = [];
