@@ -352,6 +352,7 @@ if (contactForm) {
         formFeedback.innerHTML = '<span class="cursor-blink">Transmitting message...</span>';
         
         try {
+            toggleGlobalLoader(true);
             const res = await fetch('http://localhost:3000/api/messages', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -367,6 +368,8 @@ if (contactForm) {
         } catch (err) {
             formFeedback.classList.add('error');
             formFeedback.innerHTML = `Failed to send message. Server might be unreachable.`;
+        } finally {
+            toggleGlobalLoader(false);
         }
     });
 }
@@ -774,6 +777,7 @@ async function fetchAndRenderProjects() {
     if (!container) return;
 
     try {
+        toggleGlobalLoader(true);
         const res = await fetch('http://localhost:3000/api/projects');
         if (!res.ok) throw new Error();
         const projects = await res.json();
@@ -805,6 +809,8 @@ async function fetchAndRenderProjects() {
         });
     } catch (err) {
         container.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center;">Failed to load projects.</p>';
+    } finally {
+        toggleGlobalLoader(false);
     }
 }
 document.addEventListener('DOMContentLoaded', fetchAndRenderProjects);
@@ -1073,3 +1079,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ─────────────────────────────────────────────
+// GLOBAL LOADER AND BACK TO TOP LOGIC
+// ─────────────────────────────────────────────
+
+function toggleGlobalLoader(show) {
+    const loader = document.getElementById('global-loader');
+    if (loader) {
+        if (show) loader.classList.remove('hidden');
+        else loader.classList.add('hidden');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+});
