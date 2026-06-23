@@ -1,3 +1,5 @@
+console.log("%c Welcome to Bharat's Developer Console! ", "background: #222; color: #06b6d4; font-size: 14px;");
+
 // Global DOM Elements
 const telemetryLogEl = document.getElementById('telemetry-log');
 const cmdMenuEl = document.getElementById('cmd-menu');
