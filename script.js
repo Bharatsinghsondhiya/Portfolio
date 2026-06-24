@@ -791,18 +791,18 @@ async function fetchAndRenderProjects() {
         }
 
         projects.forEach((proj, idx) => {
-            const tagsHtml = proj.tags ? proj.tags.map(t => `<span>${t}</span>`).join('') : '';
+            const tagsHtml = proj.tags ? proj.tags.map(t => `<span>${escapeHtml(t)}</span>`).join('') : '';
             const num = (idx + 1).toString().padStart(2, '0');
             const card = document.createElement('div');
             card.className = 'sys-work-card glass-panel tilt-card';
             
             card.innerHTML = `
                 <div class="sys-work-header">
-                    <span class="status-indicator ${proj.statusClass || 'active'}"><span class="dot"></span> ${proj.status || 'Active'}</span>
+                    <span class="status-indicator ${escapeHtml(proj.statusClass || 'active')}"><span class="dot"></span> ${escapeHtml(proj.status || 'Active')}</span>
                     <span class="project-num">${num}</span>
                 </div>
-                <h3>${proj.title}</h3>
-                <p class="text-muted">${proj.description}</p>
+                <h3>${escapeHtml(proj.title)}</h3>
+                <p class="text-muted">${escapeHtml(proj.description)}</p>
                 <div class="sys-work-tags">
                     ${tagsHtml}
                 </div>
