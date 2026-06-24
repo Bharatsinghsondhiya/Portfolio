@@ -25,6 +25,10 @@ const readDB = () => {
 // Helper to write DB
 const writeDB = (data) => {
     try {
+        const dir = path.dirname(DB_PATH);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
         fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
     } catch (err) {
         console.error('Error writing to db.json', err);
@@ -63,6 +67,9 @@ app.get('/api/blogs/:id', (req, res) => {
 app.post('/api/blogs', (req, res) => {
     const db = readDB();
     const newBlog = req.body;
+    if (!newBlog.title) {
+        return res.status(400).json({ message: 'Title is required for a new blog.' });
+    }
     // Generate simple ID if not provided
     if (!newBlog.id) {
         newBlog.id = newBlog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -111,6 +118,9 @@ app.post('/api/projects', (req, res) => {
     const db = readDB();
     if (!db.projects) db.projects = [];
     const newProj = req.body;
+    if (!newProj.title) {
+        return res.status(400).json({ message: 'Title is required for a new project.' });
+    }
     if (!newProj.id) {
         newProj.id = newProj.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     }
