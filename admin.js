@@ -84,6 +84,11 @@ navItems.forEach(item => {
 
 
 // --- Utilities ---
+function escapeHtml(string) {
+    if (!string) return '';
+    return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
 function showToast(message, isError = false) {
     toastEl.textContent = message;
     toastEl.className = 'toast';
@@ -198,8 +203,8 @@ function renderBlogsList() {
         div.className = 'blog-list-item';
         div.innerHTML = `
             <div class="blog-list-info">
-                <h3>${blog.title}</h3>
-                <p>${blog.date} &bull; ${blog.tag}</p>
+                <h3>${escapeHtml(blog.title)}</h3>
+                <p>${escapeHtml(blog.date)} &bull; ${escapeHtml(blog.tag)}</p>
             </div>
             <div class="blog-list-actions">
                 <button class="btn btn-secondary btn-edit" data-id="${blog.id}">Edit</button>
@@ -273,10 +278,11 @@ blogForm.addEventListener('submit', async (e) => {
             closeBlogModal();
             fetchBlogs(); // Refresh list
         } else {
-            throw new Error();
+            const errData = await res.json().catch(() => ({}));
+            throw new Error(errData.message || 'Server error');
         }
     } catch (err) {
-        showToast('Failed to save blog post', true);
+        showToast(err.message || 'Failed to save blog post', true);
     }
 });
 
@@ -312,8 +318,8 @@ function renderProjectsList() {
         div.className = 'blog-list-item';
         div.innerHTML = `
             <div class="blog-list-info">
-                <h3>${proj.title} <span style="font-size: 12px; color: gray;">(Order: ${proj.order || 0})</span></h3>
-                <p>${proj.status} &bull; ${proj.tags ? proj.tags.join(', ') : ''}</p>
+                <h3>${escapeHtml(proj.title)} <span style="font-size: 12px; color: gray;">(Order: ${escapeHtml(proj.order || 0)})</span></h3>
+                <p>${escapeHtml(proj.status)} &bull; ${proj.tags ? escapeHtml(proj.tags.join(', ')) : ''}</p>
             </div>
             <div class="blog-list-actions">
                 <button class="btn btn-secondary btn-edit-proj" data-id="${proj.id}">Edit</button>
@@ -387,10 +393,11 @@ if (projectForm) {
                 closeProjectModal();
                 fetchProjects();
             } else {
-                throw new Error();
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.message || 'Server error');
             }
         } catch (err) {
-            showToast('Failed to save project', true);
+            showToast(err.message || 'Failed to save project', true);
         }
     });
 }
@@ -431,15 +438,15 @@ function renderMessagesList() {
         div.innerHTML = `
             <div style="display: flex; justify-content: space-between; width: 100%;">
                 <div class="blog-list-info">
-                    <h3>${msg.name} <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">&lt;${msg.email}&gt;</span></h3>
+                    <h3>${escapeHtml(msg.name)} <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">&lt;${escapeHtml(msg.email)}&gt;</span></h3>
                     <p>${new Date(msg.date).toLocaleString()}</p>
                 </div>
                 <div class="blog-list-actions">
-                    <button class="btn btn-danger btn-delete-msg" data-id="${msg.id}">Delete</button>
+                    <button class="btn btn-danger btn-delete-msg" data-id="${escapeHtml(msg.id)}">Delete</button>
                 </div>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; width: 100%;">
-                <p style="margin: 0;">${msg.message}</p>
+                <p style="margin: 0;">${escapeHtml(msg.message)}</p>
             </div>
         `;
         messagesList.appendChild(div);
