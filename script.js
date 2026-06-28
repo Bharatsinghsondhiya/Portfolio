@@ -346,10 +346,17 @@ if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const name = document.getElementById('contact-name').value;
-        const email = document.getElementById('contact-email').value;
-        const message = document.getElementById('contact-message').value;
+        const name = document.getElementById('contact-name').value.trim();
+        const email = document.getElementById('contact-email').value.trim();
+        const message = document.getElementById('contact-message').value.trim();
         
+        if (!name || !email || !message) {
+            formFeedback.classList.remove('hidden', 'success');
+            formFeedback.classList.add('error');
+            formFeedback.innerHTML = `All fields are required.`;
+            return;
+        }
+
         formFeedback.classList.remove('hidden', 'success', 'error');
         formFeedback.innerHTML = '<span class="cursor-blink">Transmitting message...</span>';
         

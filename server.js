@@ -8,8 +8,8 @@ const PORT = process.env.PORT || 3000;
 const DB_PATH = path.join(__dirname, 'data', 'db.json');
 
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // Helper to read DB
 const readDB = () => {
@@ -72,7 +72,13 @@ app.post('/api/blogs', (req, res) => {
     }
     // Generate simple ID if not provided
     if (!newBlog.id) {
-        newBlog.id = newBlog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        let baseId = newBlog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        let id = baseId;
+        let counter = 1;
+        while (db.blogs.some(b => b.id === id)) {
+            id = `${baseId}-${counter++}`;
+        }
+        newBlog.id = id;
     }
     db.blogs.unshift(newBlog); // Add to top
     writeDB(db);
