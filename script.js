@@ -1,3 +1,5 @@
+"use strict";
+
 console.log("%c Welcome to Bharat's Developer Console! ", "background: #222; color: #06b6d4; font-size: 14px;");
 
 // Global DOM Elements
