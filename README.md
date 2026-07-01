@@ -47,6 +47,7 @@ index.html     — Main portfolio page
 blog.html      — Dynamic blog article reader (query param: ?id=<post-id>)
 style.css      — Complete design system and component styles
 script.js      — All interactive logic and animations
+/api/health    — API endpoint for basic server health checking
 ```
 
 ---
