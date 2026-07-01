@@ -24,6 +24,11 @@ node_modules/
 dist/
 build/
 
+# Database & Environment
+data/
+db.json
+.env
+
 # Node (if ever used)
 node_modules/
 npm-debug.log*
