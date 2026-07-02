@@ -1,18 +1,18 @@
 /* Modern Centered Premium CSS Stylesheet */
 
 :root {
-    --bg-gradient-top: #040405;
-    --bg-gradient-bottom: #050509;
+    --bg-gradient-top: #060608;
+    --bg-gradient-bottom: #09090c;
     --bg-glass: rgba(255, 255, 255, 0.02);
     --border-glass: rgba(255, 255, 255, 0.05);
     --border-glass-hover: rgba(6, 182, 212, 0.3);
     /* cyan stroke */
 
-    --accent-cyan: #06b6d4;
+    --accent-cyan: #0ea5e9;
     /* electric blue/cyan */
     --accent-cyan-glow: rgba(6, 182, 212, 0.15);
 
-    --text-primary: #f8fafc;
+    --text-primary: #ffffff;
     --text-secondary: #94a3b8;
     --text-muted: #475569;
 
@@ -57,7 +57,7 @@ body {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--border-glass);
-    border-radius: 20px;
+    border-radius: 24px;
     box-shadow: var(--shadow-soft);
     transition: var(--transition);
 }
