@@ -104,7 +104,7 @@ h4 {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px 28px;
+    padding: 12px 32px;
     border-radius: 99px;
     font-size: 14px;
     font-weight: 500;
@@ -335,7 +335,7 @@ h4 {
 .hero-greeting {
     font-family: var(--font-sans);
     font-size: 24px;
-    font-weight: 300;
+    font-weight: 400;
     color: rgba(255, 255, 255, 0.85);
     letter-spacing: -0.01em;
 }
@@ -351,7 +351,7 @@ h4 {
 
 .hero-title-modern {
     font-family: var(--font-display);
-    font-size: 44px;
+    font-size: 48px;
     line-height: 1.15;
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -401,7 +401,7 @@ h4 {
 }
 
 .btn-hire {
-    background: #f05a28;
+    background: #ea580c;
     color: #fff;
     border: none;
     padding: 13px 36px;
@@ -441,7 +441,7 @@ h4 {
 .btn-hire:hover {
     background: #ff6c3e;
     transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(240, 90, 40, 0.45);
+    box-shadow: 0 15px 30px rgba(234, 88, 12, 0.45);
 }
 
 .link-portfolio {
