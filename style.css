@@ -3609,3 +3609,6 @@ body { text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; }
 
 /* UI Update 7 */
 .expertise-icon-box:hover { box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.2); }
+
+/* UI Update 8 */
+.header-nav-link::after { background: #0ea5e9; height: 3px; border-radius: 3px; }
