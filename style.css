@@ -3600,3 +3600,6 @@ body { text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; }
 
 /* UI Update 4 */
 ::selection { background: rgba(14, 165, 233, 0.3); color: #fff; }
+
+/* UI Update 5 */
+@keyframes float { 0% { transform: translateY(0px) scale(1.15); } 50% { transform: translateY(-10px) scale(1.15); } 100% { transform: translateY(0px) scale(1.15); } } .hero-portrait-img { animation: float 6s ease-in-out infinite; }
