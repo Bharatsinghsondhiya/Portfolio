@@ -3603,3 +3603,6 @@ body { text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; }
 
 /* UI Update 5 */
 @keyframes float { 0% { transform: translateY(0px) scale(1.15); } 50% { transform: translateY(-10px) scale(1.15); } 100% { transform: translateY(0px) scale(1.15); } } .hero-portrait-img { animation: float 6s ease-in-out infinite; }
+
+/* UI Update 6 */
+::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #060608; } ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; } ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
