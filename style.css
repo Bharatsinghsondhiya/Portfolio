@@ -3589,3 +3589,5 @@ body.page-loading .page-container {
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
 }
+/* UI Update 1 */
+.glass-panel { box-shadow: 0 15px 40px -10px rgba(0,0,0,0.6); }
