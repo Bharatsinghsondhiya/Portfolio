@@ -3615,3 +3615,6 @@ body { text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; }
 
 /* UI Update 9 */
 :root { --border-glass: rgba(255, 255, 255, 0.03); }
+
+/* UI Update 10 */
+.motion-img { transition: transform 0.5s ease; } .motion-card:hover .motion-img { transform: scale(1.05); }
