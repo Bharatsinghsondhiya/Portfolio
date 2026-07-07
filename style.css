@@ -3612,3 +3612,6 @@ body { text-rendering: optimizeLegibility; -moz-osx-font-smoothing: grayscale; }
 
 /* UI Update 8 */
 .header-nav-link::after { background: #0ea5e9; height: 3px; border-radius: 3px; }
+
+/* UI Update 9 */
+:root { --border-glass: rgba(255, 255, 255, 0.03); }
