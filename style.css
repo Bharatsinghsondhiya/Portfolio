@@ -51,6 +51,21 @@ body {
         linear-gradient(to bottom, var(--bg-gradient-top), var(--bg-gradient-bottom));
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-gradient-top);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-glass-hover);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-cyan);
+}
+
 /* Glassmorphism Utilities */
 .glass-panel {
     background: var(--bg-glass);
@@ -113,6 +128,7 @@ h4 {
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+    user-select: none;
 }
 
 .btn::after {
