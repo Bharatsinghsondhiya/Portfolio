@@ -420,6 +420,7 @@ body {
 .toast.show {
     transform: translateY(0);
     opacity: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .toast.error {
