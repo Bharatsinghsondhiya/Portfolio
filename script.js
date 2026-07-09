@@ -1,6 +1,7 @@
 "use strict";
 
 console.log("%c Welcome to Bharat's Developer Console! ", "background: #222; color: #06b6d4; font-size: 14px;");
+console.log("System initialized.");
 
 // Global DOM Elements
 const telemetryLogEl = document.getElementById('telemetry-log');
