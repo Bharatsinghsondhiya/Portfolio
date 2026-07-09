@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 const DB_PATH = path.join(__dirname, 'data', 'db.json');
 
 app.use(cors());
+// Increase payload limit for image/content uploads
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
@@ -199,5 +200,5 @@ app.delete('/api/messages/:id', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`API Server running on http://localhost:${PORT}`);
 });
