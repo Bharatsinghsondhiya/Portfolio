@@ -87,7 +87,7 @@ navItems.forEach(item => {
 
 // --- Utilities ---
 function escapeHtml(string) {
-    if (!string) return '';
+    if (string === null || string === undefined) return '';
     return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
@@ -247,6 +247,7 @@ function openBlogModal(blogId = null) {
 
 function closeBlogModal() {
     blogModal.classList.remove('active');
+    blogForm.reset();
 }
 
 btnNewBlog.addEventListener('click', () => openBlogModal());
