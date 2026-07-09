@@ -40,7 +40,7 @@ A premium, editorial-style personal portfolio built with pure HTML, CSS, and Jav
 
 ---
 
-## ✦ Pages
+## ✦ Project Pages
 
 ```
 index.html     — Main portfolio page
